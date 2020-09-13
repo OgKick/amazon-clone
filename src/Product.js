@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
-/* eslint-disable no-unused-vars */
 import React from "react";
 import "./Product.css";
 import { useStateValue } from "./StateProvider";
@@ -43,7 +41,6 @@ function Product({ id, title, image, price, rating }) {
       <button onClick={addToBasket}>Add to Basket</button>
     </div>
   );
-  
 }
 
 export default Product;

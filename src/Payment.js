@@ -23,7 +23,9 @@ function Payment() {
     const [clientSecret, setClientSecret] = useState(true);
 
     useEffect(() => {
+        console.log('use effect')
         // generate the special stripe secret which allows us to charge a customer
+        
         const getClientSecret = async () => {
             const response = await axios({
                 method: 'post',
@@ -31,8 +33,9 @@ function Payment() {
                 url: `/payments/create?total=${getBasketTotal(basket) * 100}`
             });
             setClientSecret(response.data.clientSecret)
+            console.log('response')
         }
-
+        console.log(`/payments/create?total=${getBasketTotal(basket) * 100}`)   
         getClientSecret();
     }, [basket])
 
@@ -43,6 +46,7 @@ function Payment() {
         // do all the fancy stripe stuff...
         event.preventDefault();
         setProcessing(true);
+        console.log('handleSubmit')
 
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
@@ -50,7 +54,7 @@ function Payment() {
             }
         }).then(({ paymentIntent }) => {
             // paymentIntent = payment confirmation
-
+            console.log('paymentIntent')
             db
               .collection('users')
               .doc(user?.uid)
@@ -61,6 +65,7 @@ function Payment() {
                   amount: paymentIntent.amount,
                   created: paymentIntent.created
               })
+              console.log('🌟')
 
             setSucceeded(true);
             setError(null)
@@ -112,11 +117,11 @@ function Payment() {
                     <div className='payment__items'>
                         {basket.map(item => (
                             <CheckoutProduct
-                                id={item.id}
-                                title={item.title}
-                                image={item.image}
-                                price={item.price}
-                                rating={item.rating}
+                                id={item?.id}
+                                title={item?.title}
+                                image={item?.image}
+                                price={item?.price}
+                                rating={item?.rating}
                             />
                         ))}
                     </div>

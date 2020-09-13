@@ -1,14 +1,11 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import "./Checkout.css";
-import CheckoutProduct from "./CheckoutProduct";
-import { useStateValue } from "./StateProvider";
 import Subtotal from "./Subtotal";
-import FlipMove from 'react-flip-move';
-import { AnimatedList } from 'react-animated-list';
+import { useStateValue } from "./StateProvider";
+import CheckoutProduct from "./CheckoutProduct";
 
 function Checkout() {
-const [{basket, user }, dispatch] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
 
   return (
     <div className="checkout">
@@ -20,44 +17,24 @@ const [{basket, user }, dispatch] = useStateValue();
         />
 
         <div>
-          <h3> hello, {user?.email.split('@')[0]}</h3>
+          <h3>Hello, {user?.email}</h3>
           <h2 className="checkout__title">Your shopping Basket</h2>
 
-          <AnimatedList animation={"zoom"}>
-            {basket.map(item => (
-            // console.log(item)
-            // return (
-              <CheckoutProduct
-              // id={item.id}
-                id={item.id}
-                title={item.title}
-                image={item.image}
-                price={item.price}
-                rating={item.rating}
-              />
-              // )
-            ))}
-          </AnimatedList>
+          {basket.map(item => (
+            <CheckoutProduct
+              id={item.id}
+              title={item.title}
+              image={item.image}
+              price={item.price}
+              rating={item.rating}
+            />
+          ))}
+
         </div>
       </div>
 
       <div className="checkout__right">
         <Subtotal />
-        {basket.map(item => (
-            // console.log(item)
-            // return 
-          <div className="checkout__rightProduct">
-              <CheckoutProduct
-              // id={item.id}
-                id={item.id}
-                title={item.title}
-                image={item.image}
-                price={item.price}
-                rating={item.rating}
-              />
-          </div>
-              // )
-            ))}
       </div>
     </div>
   );
